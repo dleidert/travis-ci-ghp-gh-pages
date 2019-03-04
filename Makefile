@@ -9,3 +9,6 @@ clean:
 
 install:
 	make -C build install
+
+test:
+	make -C build test
