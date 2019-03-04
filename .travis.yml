@@ -47,10 +47,12 @@ matrix:
         update: true
         sources: ubuntu-toolchain-r-test
         packages: cmake
-    script:
+    before_script:
     - mkdir build
-    - cmake -S . -B build
-    - make -C build
+    - cd build
+    - cmake ..
+    script:
+    - make && make test
   - if: branch = master # master Linux CLANG build
     language: c
     os: linux
@@ -62,10 +64,12 @@ matrix:
         update: true
         sources: ubuntu-toolchain-r-test
         packages: cmake
-    script:
+    before_script:
     - mkdir build
-    - cmake -S . -B build
-    - make -C build
+    - cd build
+    - cmake ..
+    script:
+    - make && make test
   - if: branch = master # master Windows build
     language: c
     os: windows
