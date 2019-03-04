@@ -52,7 +52,7 @@ matrix:
     - cd build
     - cmake ..
     script:
-    - make
+    - make && make test
   - if: branch = master # master Linux CLANG build
     language: c
     os: linux
@@ -69,7 +69,7 @@ matrix:
     - cd build
     - cmake ..
     script:
-    - make
+    - make && make test
   - if: branch = master # master Windows build
     language: c
     os: windows
