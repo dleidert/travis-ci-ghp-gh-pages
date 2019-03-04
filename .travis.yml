@@ -1,0 +1,60 @@
+sudo: false
+
+notifications:
+  email:
+    on_success: never
+
+cache:
+  apt: true
+
+matrix:
+  allow_failures:
+  - os: windows
+  include:
+  - if: branch = gh-pages
+    language: ruby
+    env:
+    - JEKYLL_ENV=production
+    - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
+    cache:
+      bundler: true
+      directories: $TRAVIS_BUILD_DIR/tmp/.htmlproofer
+    addons:
+      apt:
+        packages: libcurl4-openssl-dev
+    rvm: 2.4.1
+    script:
+    - bundle exec jekyll build --source ./docs/ --trace
+    # https://github.com/gjtorikian/html-proofer/wiki/Using-HTMLProofer-From-Ruby-and-Travis
+    - bundle exec htmlproofer ./_site
+      --check-external-hash
+      --check-opengraph
+      --check-sri
+      --check-html
+      --check-img-http
+      --enforce-https
+      --timeframe 4w
+    after_success:
+    - find ./_site -type f
+  - if: branch = master
+    language: c
+    os: linux
+    dist: xenial
+    sudo: true
+    compiler:
+    - gcc
+    - clang
+    addons:
+      apt:
+        update: true
+        sources: ubuntu-toolchain-r-test
+        packages: cmake
+    script:
+    - mkdir build
+    - cmake -S . -B build
+    - make -C build
+  - if: branch = master
+    language: c
+    os: windows
+    script:
+    - pwsh -Argument 'Write-Host "Hello, World!"'
