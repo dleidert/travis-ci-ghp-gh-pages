@@ -74,5 +74,5 @@ matrix:
     language: c
     os: windows
     compiler: gcc
-    #before_script: cmake
-    #script: make && make test
+    before_script: cmake
+    script: make && make test
