@@ -11,7 +11,7 @@ matrix:
   allow_failures:
   - os: windows
   include:
-  - if: branch = gh-pages
+  - if: branch = gh-pages # gh-pages RVM build
     language: ruby
     env:
     - JEKYLL_ENV=production
@@ -36,14 +36,12 @@ matrix:
       --timeframe 4w
     after_success:
     - find ./_site -type f
-  - if: branch = master
+  - if: branch = master # master Linux GCC build
     language: c
     os: linux
     dist: xenial
     sudo: true
-    compiler:
-    - gcc
-    - clang
+    compiler: gcc
     addons:
       apt:
         update: true
@@ -53,7 +51,22 @@ matrix:
     - mkdir build
     - cmake -S . -B build
     - make -C build
-  - if: branch = master
+  - if: branch = master # master Linux CLANG build
+    language: c
+    os: linux
+    dist: xenial
+    sudo: true
+    compiler: clang
+    addons:
+      apt:
+        update: true
+        sources: ubuntu-toolchain-r-test
+        packages: cmake
+    script:
+    - mkdir build
+    - cmake -S . -B build
+    - make -C build
+  - if: branch = master # master Windows build
     language: c
     os: windows
     script:
