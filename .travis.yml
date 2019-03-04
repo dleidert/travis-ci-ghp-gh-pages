@@ -73,5 +73,6 @@ matrix:
   - if: branch = master # master Windows build
     language: c
     os: windows
-    script:
-    - pwsh -Argument 'Write-Host "Hello, World!"'
+    compiler: gcc
+    #before_script: cmake
+    #script: make && make test
